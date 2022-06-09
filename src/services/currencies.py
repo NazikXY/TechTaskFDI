@@ -25,9 +25,9 @@ class CurrenciesService:
         self._session.commit()
         ...
 
-    async def get_rate(self, symbol) -> CurrencySuccessSingle:
+    async def get_rate(self, symbol: str, amount: float = 1) -> CurrencySuccessSingle:
         eur_params = {
-            'amount': 1,
+            'amount': amount,
             'from'  : symbol,
             'to'    : 'UAH'
         }
@@ -44,7 +44,7 @@ class CurrenciesService:
 
         result = CurrencySuccessSingle(
             name=symbol,
-            timestamp=result['info']['timestamp'],
+            timestamp=datetime.timestamp(datetime.utcnow()),
             rate=result['result']
         )
 

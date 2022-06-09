@@ -10,7 +10,7 @@ class Pair(BaseModel):
 
 class CurrencySuccessBase(BaseModel):
     success: bool = True
-    timestamp: datetime
+    timestamp: float
 
 
 class CurrencySuccessSingle(CurrencySuccessBase):
@@ -28,7 +28,7 @@ class ErrorMessage(BaseModel):
 
 
 class CurrencyErrorResponse(BaseModel):
-    timestamp: datetime
+    timestamp: float
     message: dict = {}
     success: bool = False
     error: ErrorMessage

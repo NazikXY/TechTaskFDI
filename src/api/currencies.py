@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 
 from ..services.auth import get_current_user
 from ..services.currencies import CurrenciesService
@@ -9,10 +9,10 @@ router = APIRouter(prefix='/currencies', tags=['currencies'], dependencies=[Depe
 
 
 @router.get('/get_currencies', response_model=models.CurrencySuccessPair)
-async def endpoint(currency_service: CurrenciesService = Depends()):
+async def endpoint(amount: float = Query(default=1, gt=0, ), currency_service: CurrenciesService = Depends()):
 
-    usd_result = await currency_service.get_rate('USD')
-    eur_result = await currency_service.get_rate('EUR')
+    usd_result = await currency_service.get_rate('USD', amount)
+    eur_result = await currency_service.get_rate('EUR', amount)
 
     result_model = models.CurrencySuccessPair(
         timestamp=eur_result.timestamp,
